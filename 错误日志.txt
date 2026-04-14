@@ -1,0 +1,31 @@
+java.lang.NullPointerException: Attempt to invoke virtual method 'void com.zcshou.service.ServiceGo$ServiceGoBinder.setTrajectory(java.util.List, boolean)' on a null object reference
+
+	at com.zcshou.gogogo.MainActivity.doGoLocation(MainActivity.java:920)
+	
+	at com.zcshou.gogogo.MainActivity.$r8$lambda$7BjfOWZRCs08LT9Bnnb3iqJbGJI(Unknown Source:0)
+	
+	at com.zcshou.gogogo.MainActivity$$ExternalSyntheticLambda6.onClick(D8$$SyntheticClass:0)
+	
+	at android.view.View.performClick(View.java:8291)
+	
+	at android.view.View.performClickInternal(View.java:8268)
+	
+	at android.view.View.-$$Nest$mperformClickInternal(Unknown Source:0)
+	
+	at android.view.View$PerformClick.run(View.java:33387)
+	
+	at android.os.Handler.handleCallback(Handler.java:995)
+	
+	at android.os.Handler.dispatchMessage(Handler.java:103)
+	
+	at android.os.Looper.loopOnce(Looper.java:267)
+	
+	at android.os.Looper.loop(Looper.java:360)
+	
+	at android.app.ActivityThread.main(ActivityThread.java:10088)
+	
+	at java.lang.reflect.Method.invoke(Native Method)
+	
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:616)
+	
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1113)

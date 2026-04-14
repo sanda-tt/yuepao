@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group>
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_menu_history"
+            android:title="@string/nav_menu_history" />
+    </group>
+    
+    <group>
+        <item android:title="@string/nav_menu_move_mode">
+            <menu>
+                <item
+                    android:id="@+id/nav_joystick_move"
+                    android:icon="@drawable/ic_move"
+                    android:title="@string/nav_menu_joystick_move" />
+                <item
+                    android:id="@+id/nav_trajectory_move"
+                    android:icon="@drawable/ic_run"
+                    android:title="@string/nav_menu_trajectory_move" />
+            </menu>
+        </item>
+    </group>
+    
+    <group>
+        <item android:title="@string/nav_menu_trajectory">
+            <menu>
+                <item
+                    android:id="@+id/nav_start_draw"
+                    android:icon="@drawable/ic_position"
+                    android:title="@string/nav_menu_start_draw" />
+                <item
+                    android:id="@+id/nav_stop_draw"
+                    android:icon="@drawable/ic_close"
+                    android:title="@string/nav_menu_stop_draw" />
+                <item
+                    android:id="@+id/nav_clear_trajectory"
+                    android:icon="@drawable/ic_delete"
+                    android:title="@string/nav_menu_clear_trajectory" />
+                <item
+                    android:id="@+id/nav_save_trajectory"
+                    android:icon="@drawable/ic_save"
+                    android:title="@string/nav_menu_save_trajectory" />
+                <item
+                    android:id="@+id/nav_load_trajectory"
+                    android:icon="@drawable/ic_history"
+                    android:title="@string/nav_menu_load_trajectory" />
+            </menu>
+        </item>
+    </group>
+    
+    <group>
+        <item android:title="@string/nav_menu_settings">
+            <menu>
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_menu_settings"
+                    android:title="@string/nav_menu_settings" />
+                <item
+                    android:id="@+id/nav_dev"
+                    android:icon="@drawable/ic_menu_dev"
+                    android:title="@string/nav_menu_dev" />
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="@string/nav_menu_more">
+        <menu>
+            <item
+                android:id="@+id/nav_update"
+                android:icon="@drawable/ic_menu_upgrade"
+                android:title="@string/nav_menu_upgrade" />
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_menu_feedback"
+                android:title="@string/nav_menu_feedback" />
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_contact"
+                android:title="@string/nav_menu_contact" />
+        </menu>
+    </item>
+
+</menu>
