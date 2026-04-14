@@ -181,21 +181,30 @@ public class ServiceGo extends Service {
         mJoyStick.setListener(new JoyStick.JoyStickClickListener() {
             @Override
             public void onMoveInfo(double speed, double disLng, double disLat, double angle) {
-                mSpeed = speed;
-                // 根据当前的经纬度和距离，计算下一个经纬度
-                // Latitude: 1 deg = 110.574 km // 纬度的每度的距离大约为 110.574km
-                // Longitude: 1 deg = 111.320*cos(latitude) km  // 经度的每度的距离从0km到111km不等
-                // 具体见：http://wp.mlab.tw/?p=2200
-                mCurLng += disLng / (111.320 * Math.cos(Math.abs(mCurLat) * Math.PI / 180));
-                mCurLat += disLat / 110.574;
-                mCurBea = (float) angle;
+                // 只有在非轨迹模式下才处理摇杆移动
+                if (!isTrajectoryMode) {
+                    mSpeed = speed;
+                    // 根据当前的经纬度和距离，计算下一个经纬度
+                    // Latitude: 1 deg = 110.574 km // 纬度的每度的距离大约为 110.574km
+                    // Longitude: 1 deg = 111.320*cos(latitude) km  // 经度的每度的距离从0km到111km不等
+                    // 具体见：http://wp.mlab.tw/?p=2200
+                    mCurLng += disLng / (111.320 * Math.cos(Math.abs(mCurLat) * Math.PI / 180));
+                    mCurLat += disLat / 110.574;
+                    mCurBea = (float) angle;
+                } else {
+                    // 轨迹模式下只更新速度
+                    mSpeed = speed;
+                }
             }
 
             @Override
             public void onPositionInfo(double lng, double lat, double alt) {
-                mCurLng = lng;
-                mCurLat = lat;
-                mCurAlt = alt;
+                // 只有在非轨迹模式下才处理位置更新
+                if (!isTrajectoryMode) {
+                    mCurLng = lng;
+                    mCurLat = lat;
+                    mCurAlt = alt;
+                }
             }
         });
         mJoyStick.show();
@@ -458,6 +467,9 @@ public class ServiceGo extends Service {
             mCurAlt = alt;
             mLocHandler.sendEmptyMessage(HANDLER_MSG_ID);
             mJoyStick.setCurrentPosition(mCurLng, mCurLat, mCurAlt);
+            // 非轨迹模式下显示完整摇杆
+            isTrajectoryMode = false;
+            mJoyStick.showJoystick();
         }
 
         public void setTrajectory(List<LatLng> points, boolean loop) {
@@ -466,6 +478,8 @@ public class ServiceGo extends Service {
             mCurrentPointIndex = 0;
             mTrajectoryProgress = 0.0;
             isTrajectoryMode = true;
+            // 轨迹模式下显示速度选择器
+            mJoyStick.showSpeedSelector();
         }
 
         public void setTrajectoryMode(boolean mode) {

@@ -63,6 +63,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
@@ -1086,13 +1087,22 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private void startDrawingTrajectory() {
         isDrawingTrajectory = true;
         mTrajectoryPoints.clear();
-        GoUtils.DisplayToast(this, "开始绘制轨迹");
+        GoUtils.DisplayToast(this, "开始绘制轨迹，请移动地图");
     }
 
     // 停止绘制轨迹
     private void stopDrawingTrajectory() {
         isDrawingTrajectory = false;
-        GoUtils.DisplayToast(this, "停止绘制轨迹");
+        
+        // 自动连接起点和终点
+        if (mTrajectoryPoints.size() >= 2) {
+            LatLng startPoint = mTrajectoryPoints.get(0);
+            LatLng endPoint = mTrajectoryPoints.get(mTrajectoryPoints.size() - 1);
+            mTrajectoryPoints.add(startPoint);
+            updateTrajectory();
+        }
+        
+        GoUtils.DisplayToast(this, "停止绘制轨迹，已自动连接起点和终点");
     }
 
     // 清除轨迹

@@ -53,6 +53,7 @@ public class JoyStick extends View {
     private static final int WINDOW_TYPE_JOYSTICK = 0;
     private static final int WINDOW_TYPE_MAP = 1;
     private static final int WINDOW_TYPE_HISTORY = 2;
+    private static final int WINDOW_TYPE_SPEED_SELECTOR = 3;
 
     private final Context mContext;
     private WindowManager.LayoutParams mWindowParamCurrent;
@@ -92,6 +93,8 @@ public class JoyStick extends View {
     private SuggestionSearch mSuggestionSearch;
     private ListView mSearchList;
     private LinearLayout mSearchLayout;
+    // 速度选择器布局
+    private LinearLayout mSpeedSelectorLayout;
 
     public JoyStick(Context context) {
         super(context);
@@ -109,6 +112,8 @@ public class JoyStick extends View {
             initJoyStickMapView();
 
             initHistoryView();
+            
+            initSpeedSelectorView();
         }
     }
 
@@ -128,6 +133,8 @@ public class JoyStick extends View {
             initJoyStickMapView();
 
             initHistoryView();
+            
+            initSpeedSelectorView();
         }
     }
 
@@ -147,6 +154,8 @@ public class JoyStick extends View {
             initJoyStickMapView();
 
             initHistoryView();
+            
+            initSpeedSelectorView();
         }
     }
 
@@ -157,6 +166,18 @@ public class JoyStick extends View {
 
         resetBaiduMap();
     }
+    
+    // 显示速度选择器
+    public void showSpeedSelector() {
+        mCurWin = WINDOW_TYPE_SPEED_SELECTOR;
+        show();
+    }
+    
+    // 显示完整摇杆
+    public void showJoystick() {
+        mCurWin = WINDOW_TYPE_JOYSTICK;
+        show();
+    }
 
     public void show() {
         switch (mCurWin) {
@@ -166,6 +187,9 @@ public class JoyStick extends View {
                 }
                 if (mHistoryLayout.getParent() != null) {
                     mWindowManager.removeView(mHistoryLayout);
+                }
+                if (mSpeedSelectorLayout.getParent() != null) {
+                    mWindowManager.removeView(mSpeedSelectorLayout);
                 }
                 if (mMapLayout.getParent() == null) {
                     resetBaiduMap();
@@ -179,6 +203,9 @@ public class JoyStick extends View {
                 if (mJoystickLayout.getParent() != null) {
                     mWindowManager.removeView(mJoystickLayout);
                 }
+                if (mSpeedSelectorLayout.getParent() != null) {
+                    mWindowManager.removeView(mSpeedSelectorLayout);
+                }
                 if (mHistoryLayout.getParent() == null) {
                     mWindowManager.addView(mHistoryLayout, mWindowParamCurrent);
                 }
@@ -190,8 +217,25 @@ public class JoyStick extends View {
                 if (mHistoryLayout.getParent() != null) {
                     mWindowManager.removeView(mHistoryLayout);
                 }
+                if (mSpeedSelectorLayout.getParent() != null) {
+                    mWindowManager.removeView(mSpeedSelectorLayout);
+                }
                 if (mJoystickLayout.getParent() == null) {
                     mWindowManager.addView(mJoystickLayout, mWindowParamCurrent);
+                }
+                break;
+            case WINDOW_TYPE_SPEED_SELECTOR:
+                if (mMapLayout.getParent() != null) {
+                    mWindowManager.removeView(mMapLayout);
+                }
+                if (mHistoryLayout.getParent() != null) {
+                    mWindowManager.removeView(mHistoryLayout);
+                }
+                if (mJoystickLayout.getParent() != null) {
+                    mWindowManager.removeView(mJoystickLayout);
+                }
+                if (mSpeedSelectorLayout.getParent() == null) {
+                    mWindowManager.addView(mSpeedSelectorLayout, mWindowParamCurrent);
                 }
                 break;
         }
@@ -209,6 +253,10 @@ public class JoyStick extends View {
         if (mHistoryLayout.getParent() != null) {
             mWindowManager.removeViewImmediate(mHistoryLayout);
         }
+        
+        if (mSpeedSelectorLayout.getParent() != null) {
+            mWindowManager.removeViewImmediate(mSpeedSelectorLayout);
+        }
     }
 
     public void destroy() {
@@ -222,6 +270,10 @@ public class JoyStick extends View {
 
         if (mHistoryLayout.getParent() != null) {
             mWindowManager.removeViewImmediate(mHistoryLayout);
+        }
+        
+        if (mSpeedSelectorLayout.getParent() != null) {
+            mWindowManager.removeViewImmediate(mSpeedSelectorLayout);
         }
 
         mBaiduMap.setMyLocationEnabled(false);
@@ -411,17 +463,23 @@ public class JoyStick extends View {
                     x = nowX;
                     y = nowY;
 
-                    mWindowParamCurrent.x += movedX;
-                    mWindowParamCurrent.y += movedY;
-                    mWindowManager.updateViewLayout(view, mWindowParamCurrent);
+                    // 只有当移动距离超过一定阈值时才更新位置，避免误触
+                    if (Math.abs(movedX) > 5 || Math.abs(movedY) > 5) {
+                        mWindowParamCurrent.x += movedX;
+                        mWindowParamCurrent.y += movedY;
+                        mWindowManager.updateViewLayout(view, mWindowParamCurrent);
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
-                    view.performClick();
+                    // 只有当移动距离较小时才执行点击操作
+                    if (Math.abs(event.getRawX() - x) < 5 && Math.abs(event.getRawY() - y) < 5) {
+                        view.performClick();
+                    }
                     break;
                 default:
                     break;
             }
-            return false;
+            return true;
         }
     }
 
@@ -825,5 +883,51 @@ public class JoyStick extends View {
                 Log.e("JOYSTICK", "ERROR - showHistory");
             }
         }
+    }
+    
+    @SuppressLint("InflateParams")
+    private void initSpeedSelectorView() {
+        mSpeedSelectorLayout = (LinearLayout) inflater.inflate(R.layout.speed_selector, null);
+        mSpeedSelectorLayout.setOnTouchListener(new JoyStickOnTouchListener());
+        
+        /* 移动按键的点击处理 */
+        ImageButton btnMove = mSpeedSelectorLayout.findViewById(R.id.joystick_move);
+        btnMove.setOnClickListener(v -> {
+            // 移动按钮点击事件，由于整个布局已经设置了触摸监听器，这里可以留空
+            // 触摸监听器会处理拖动功能
+        });
+        
+        /* 步行按键的点击处理 */
+        ImageButton btnWalk = mSpeedSelectorLayout.findViewById(R.id.joystick_walk);
+        btnWalk.setOnClickListener(v -> {
+            try {
+                mSpeed = Double.parseDouble(sharedPreferences.getString("setting_walk", getResources().getString(R.string.setting_walk_default)));
+            } catch (NumberFormatException e) {  // GOOD: The exception is caught.
+                mSpeed = 1.2;
+            }
+            mListener.onMoveInfo(mSpeed, 0, 0, 0);
+        });
+        
+        /* 跑步按键的点击处理 */
+        ImageButton btnRun = mSpeedSelectorLayout.findViewById(R.id.joystick_run);
+        btnRun.setOnClickListener(v -> {
+            try {
+                mSpeed = Double.parseDouble(sharedPreferences.getString("setting_run", getResources().getString(R.string.setting_run_default)));
+            } catch (NumberFormatException e) {  // GOOD: The exception is caught.
+                mSpeed = 3.0;
+            }
+            mListener.onMoveInfo(mSpeed, 0, 0, 0);
+        });
+        
+        /* 骑行按键的点击处理 */
+        ImageButton btnBike = mSpeedSelectorLayout.findViewById(R.id.joystick_bike);
+        btnBike.setOnClickListener(v -> {
+            try {
+                mSpeed = Double.parseDouble(sharedPreferences.getString("setting_bike", getResources().getString(R.string.setting_bike_default)));
+            } catch (NumberFormatException e) {  // GOOD: The exception is caught.
+                mSpeed = 6.0;
+            }
+            mListener.onMoveInfo(mSpeed, 0, 0, 0);
+        });
     }
 }

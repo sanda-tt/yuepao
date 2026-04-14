@@ -1,10 +1,24 @@
-java.lang.NullPointerException: Attempt to invoke virtual method 'void com.zcshou.service.ServiceGo$ServiceGoBinder.setTrajectory(java.util.List, boolean)' on a null object reference
+java.lang.IllegalArgumentException: BDMapSDKException: marker's icon can not be null
 
-	at com.zcshou.gogogo.MainActivity.doGoLocation(MainActivity.java:920)
+	at com.baidu.mapapi.map.MarkerOptions.icon(MarkerOptions.java:86)
 	
-	at com.zcshou.gogogo.MainActivity.$r8$lambda$7BjfOWZRCs08LT9Bnnb3iqJbGJI(Unknown Source:0)
+	at com.zcshou.gogogo.MainActivity.startDrawingTrajectory(MainActivity.java:1102)
 	
-	at com.zcshou.gogogo.MainActivity$$ExternalSyntheticLambda6.onClick(D8$$SyntheticClass:0)
+	at com.zcshou.gogogo.MainActivity.lambda$initNavigationView$1$com-zcshou-gogogo-MainActivity(MainActivity.java:463)
+	
+	at com.zcshou.gogogo.MainActivity$$ExternalSyntheticLambda18.onNavigationItemSelected(D8$$SyntheticClass:0)
+	
+	at com.google.android.material.navigation.NavigationView$1.onMenuItemSelected(NavigationView.java:302)
+	
+	at androidx.appcompat.view.menu.MenuBuilder.dispatchMenuItemSelected(MenuBuilder.java:836)
+	
+	at androidx.appcompat.view.menu.SubMenuBuilder.dispatchMenuItemSelected(SubMenuBuilder.java:91)
+	
+	at androidx.appcompat.view.menu.MenuItemImpl.invoke(MenuItemImpl.java:159)
+	
+	at androidx.appcompat.view.menu.MenuBuilder.performItemAction(MenuBuilder.java:987)
+	
+	at com.google.android.material.internal.NavigationMenuPresenter$1.onClick(NavigationMenuPresenter.java:494)
 	
 	at android.view.View.performClick(View.java:8291)
 	
