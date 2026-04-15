@@ -74,6 +74,11 @@ public class ServiceGo extends Service {
     private boolean isRandomOffset = false; // 是否启用随机偏移
     private double maxLonOffset = 10.0; // 经度最大偏移距离（米）
     private double maxLatOffset = 10.0; // 纬度最大偏移距离（米）
+    // 速度随机偏移相关
+    private boolean isSpeedRandomOffset = false; // 是否启用速度随机偏移
+    private double mBaseSpeed = 1.2; // 基础速度（用于随机偏移）
+    private int mSpeedOffsetCounter = 0; // 速度偏移计数器
+    private boolean mIsSpeedIncreasing = true; // 速度是否正在增加
 
     private final ServiceGoBinder mBinder = new ServiceGoBinder();
 
@@ -108,6 +113,7 @@ public class ServiceGo extends Service {
     private void initRandomOffset() {
         android.content.SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
         isRandomOffset = sharedPreferences.getBoolean("setting_random_offset", false);
+        isSpeedRandomOffset = sharedPreferences.getBoolean("setting_speed_random_offset", false);
         String max_offset_default = getResources().getString(R.string.setting_random_offset_default);
         maxLonOffset = Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString("setting_lon_max_offset", max_offset_default)));
         maxLatOffset = Double.parseDouble(Objects.requireNonNull(sharedPreferences.getString("setting_lat_max_offset", max_offset_default)));
@@ -184,6 +190,7 @@ public class ServiceGo extends Service {
                 // 只有在非轨迹模式下才处理摇杆移动
                 if (!isTrajectoryMode) {
                     mSpeed = speed;
+                    mBaseSpeed = speed;
                     // 根据当前的经纬度和距离，计算下一个经纬度
                     // Latitude: 1 deg = 110.574 km // 纬度的每度的距离大约为 110.574km
                     // Longitude: 1 deg = 111.320*cos(latitude) km  // 经度的每度的距离从0km到111km不等
@@ -192,8 +199,9 @@ public class ServiceGo extends Service {
                     mCurLat += disLat / 110.574;
                     mCurBea = (float) angle;
                 } else {
-                    // 轨迹模式下只更新速度
+                    // 轨迹模式下更新速度和基础速度
                     mSpeed = speed;
+                    mBaseSpeed = speed;
                 }
             }
 
@@ -393,6 +401,26 @@ public class ServiceGo extends Service {
     private void updateTrajectoryPosition() {
         if (mTrajectoryPoints.size() < 2) {
             return;
+        }
+
+        // 应用速度随机偏移（仅在轨迹模式下）
+        if (isTrajectoryMode && isSpeedRandomOffset) {
+            // 伪随机速度变化：使用计数器实现固定的速度变化模式
+            mSpeedOffsetCounter++;
+            
+            // 每10次更新改变一次速度方向
+            if (mSpeedOffsetCounter % 10 == 0) {
+                mIsSpeedIncreasing = !mIsSpeedIncreasing;
+            }
+            
+            // 计算速度偏移量（±20%范围内）
+            double offsetFactor = 0.2 * (mSpeedOffsetCounter % 10) / 10.0;
+            if (!mIsSpeedIncreasing) {
+                offsetFactor = -offsetFactor;
+            }
+            
+            // 应用速度偏移
+            mSpeed = mBaseSpeed * (1 + offsetFactor);
         }
 
         // 获取当前点和下一个点

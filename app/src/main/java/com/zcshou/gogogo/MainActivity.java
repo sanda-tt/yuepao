@@ -1,4 +1,4 @@
-package com.zcshou.gogogo;
+package com.HellAlarm.yuepao;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -95,12 +95,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.zcshou.service.ServiceGo;
-import com.zcshou.database.DataBaseHistoryLocation;
-import com.zcshou.database.DataBaseHistorySearch;
-import com.zcshou.utils.ShareUtils;
-import com.zcshou.utils.GoUtils;
-import com.zcshou.utils.MapUtils;
+import com.HellAlarm.service.ServiceGo;
+import com.HellAlarm.database.DataBaseHistoryLocation;
+import com.HellAlarm.database.DataBaseHistorySearch;
+import com.HellAlarm.utils.ShareUtils;
+import com.HellAlarm.utils.GoUtils;
+import com.HellAlarm.utils.MapUtils;
 
 import com.elvishew.xlog.XLog;
 

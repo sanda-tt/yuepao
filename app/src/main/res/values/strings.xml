@@ -63,6 +63,8 @@
     <string name="setting_bike_default">10.0</string>
     <string name="setting_altitude">海拔高度(米)</string>
     <string name="setting_altitude_default">55.0</string>
+    <string name="setting_speed_random_offset">速度随机偏移</string>
+    <string name="setting_speed_random_offset_summary">轨迹移动时速度随机变化</string>
 
     <!-- 位置偏移相关参数 -->
     <string name="setting_group_location_offset">位置偏移</string>

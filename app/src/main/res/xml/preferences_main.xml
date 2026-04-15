@@ -43,6 +43,13 @@
             app:summary="@string/setting_altitude_default"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            app:key="setting_speed_random_offset"
+            app:title="@string/setting_speed_random_offset"
+            app:summary="@string/setting_speed_random_offset_summary"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

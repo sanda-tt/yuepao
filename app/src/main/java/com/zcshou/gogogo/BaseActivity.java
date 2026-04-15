@@ -1,4 +1,4 @@
-package com.zcshou.gogogo;
+package com.HellAlarm.yuepao;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
