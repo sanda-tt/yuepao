@@ -4,10 +4,10 @@
 
 <div align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/ZCShou/GoGoGo?logo=github)](https://github.com/ZCShou/GoGoGo/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/ZCShou/GoGoGo?logo=github)](https://github.com/ZCShou/GoGoGo/network)
-[![license](https://img.shields.io/github/license/ZCShou/GoGoGo)](https://github.com/ZCShou/GoGoGo/blob/master/LICENSE)
-[![GitHub Release](https://img.shields.io/github/v/release/ZCShou/GoGoGo?label=Release)](https://github.com/ZCShou/GoGoGo/releases)
+[![GitHub stars](https://img.shields.io/github/stars/HellAlarm/yuepao?logo=github)](https://github.com/HellAlarm/yuepao/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/HellAlarm/yuepao?logo=github)](https://github.com/HellAlarm/yuepao/network)
+[![license](https://img.shields.io/github/license/HellAlarm/yuepao)](https://github.com/HellAlarm/yuepao/blob/master/LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/HellAlarm/yuepao?label=Release)](https://github.com/HellAlarm/yuepao/releases)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 </div>
 <div align="center">
@@ -17,14 +17,16 @@
 </div>
 
 <div align="center">
-影梭 - 用于 Android 8.0+ 的无需 ROOT 权限的虚拟定位 APP
+
+约跑 - 用于 Android 8.0+ 的无需 ROOT 权限的虚拟定位 APP
+
 </div>
 
 ## 简介
-&emsp;&emsp;影梭是一个基于 Android 调试 API + 百度地图及定位 SDK 实现的安卓定位修改工具，并且同时实现了一个可以自由控制移动的摇杆。使用影梭，不需要 ROOT 权限就可以随意修改自己的当前位置以及模拟移动。
+&emsp;&emsp;约跑是一个基于 Android 调试 API + 百度地图及定位 SDK 实现的安卓定位修改工具，并且同时实现了一个可以自由控制移动的摇杆。使用约跑，不需要 ROOT 权限就可以随意修改自己的当前位置以及模拟移动。
 
-1. 源码仓库：[Github](https://github.com/ZCShou/GoGoGo)（推荐）、[Gitee](https://gitee.com/itexp/gogogo)（镜像）
-2. 下载地址：[Github](https://github.com/ZCShou/GoGoGo/releases)（推荐）、[Gitee](https://gitee.com/itexp/gogogo/releases)（镜像）
+1. 源码仓库：[Github](https://github.com/HellAlarm/yuepao)（推荐）、[Gitee](https://gitee.com/itexp/yuepao)（镜像）
+2. 下载地址：[Github](https://github.com/HellAlarm/yuepao/releases)（推荐）、[Gitee](https://gitee.com/itexp/yuepao/releases)（镜像）
 
 ## 警告一
 &emsp;&emsp;**最近，有网友直接白嫖影梭后改名为标枪定位，然后添加广告（除了加广告，功能没有任何改变），但是，没有按照 GPLv3 协议的要求进行开源（我已经联系过该网友进了提醒，但并没有收到回复），在此提醒：**
@@ -87,7 +89,7 @@ A：这是是由于实现原理导致的，Android 调试 API 固有的问题。
 
 Q：是否支持鸿蒙系统？
 
-A：经过测试，影梭可以在鸿蒙系统上正常运行。
+A：经过测试，约跑可以在鸿蒙系统上正常运行。
 
 Q：为何在微信等腾讯系应用上定位不起作用？
 
