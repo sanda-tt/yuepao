@@ -111,7 +111,7 @@ public class ServiceGo extends Service {
 
     // 初始化随机偏移设置
     private void initRandomOffset() {
-        android.content.SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        android.content.SharedPreferences sharedPreferences = getSharedPreferences("com.HellAlarm.yuepao_preferences", Context.MODE_PRIVATE);
         isRandomOffset = sharedPreferences.getBoolean("setting_random_offset", false);
         isSpeedRandomOffset = sharedPreferences.getBoolean("setting_speed_random_offset", false);
         String max_offset_default = getResources().getString(R.string.setting_random_offset_default);
