@@ -224,7 +224,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
 
         initUpdateVersion();
 
-        checkUpdateVersion(false);
+        // 移除开屏更新检查
+        // checkUpdateVersion(false);
     }
 
     @Override
@@ -284,6 +285,49 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     @Override
     public void onBackPressed() {
         moveTaskToBack(false);
+    }
+
+    private void showContactAuthorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_contact_author, null);
+        builder.setView(dialogView);
+        builder.setTitle("联系作者");
+        builder.setCancelable(true);
+
+        TextView authorEmail = dialogView.findViewById(R.id.author_email);
+        authorEmail.setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto:hellalarm@foxmail.com"));
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"hellalarm@foxmail.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "关于 YuePao 应用");
+            try {
+                startActivity(emailIntent);
+            } catch (Exception e) {
+                GoUtils.DisplayToast(this, "无法打开邮件应用");
+            }
+        });
+
+        Button btnDonate = dialogView.findViewById(R.id.btn_donate);
+        btnDonate.setOnClickListener(v -> {
+            showDonateDialog();
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showDonateDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_donate, null);
+        builder.setView(dialogView);
+        builder.setTitle("投喂作者");
+        builder.setCancelable(true);
+
+        ImageView qrCode = dialogView.findViewById(R.id.qr_code);
+        qrCode.setImageResource(R.drawable.tw);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -443,15 +487,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                         GoUtils.DisplayToast(this, getResources().getString(R.string.app_error_dev));
                     }
                 }
-            } else if (id == R.id.nav_update) {
-                checkUpdateVersion(true);
+
             } else if (id == R.id.nav_feedback) {
                 File file = new File(getExternalFilesDir("Logs"), GoApplication.LOG_FILE_NAME);
                 ShareUtils.shareFile(this, file, item.getTitle().toString());
             } else if (id == R.id.nav_contact) {
-                Uri uri = Uri.parse("https://gitee.com/itexp/gogogo/issues");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                showContactAuthorDialog();
             } else if (id == R.id.nav_joystick_move) {
                 isTrajectoryMode = false;
                 GoUtils.DisplayToast(this, "已切换到摇杆移动模式");
@@ -800,6 +841,14 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private void resetMap() {
         mBaiduMap.clear();
         mMarkLatLngMap = null;
+
+        // 检查是否有有效的定位数据
+        if (mCurrentLat == 0.0 && mCurrentLon == 0.0) {
+            // 如果定位数据无效，重新请求定位
+            mLocClient.requestLocation();
+            GoUtils.DisplayToast(this, "正在获取位置信息...");
+            return;
+        }
 
         MyLocationData locData = new MyLocationData.Builder()
                 .latitude(mCurrentLat)

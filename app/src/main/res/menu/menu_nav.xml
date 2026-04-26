@@ -69,10 +69,11 @@
 
     <item android:title="@string/nav_menu_more">
         <menu>
-            <item
+            <!-- 移除检查更新选项 -->
+            <!-- <item
                 android:id="@+id/nav_update"
                 android:icon="@drawable/ic_menu_upgrade"
-                android:title="@string/nav_menu_upgrade" />
+                android:title="@string/nav_menu_upgrade" /> -->
             <item
                 android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_menu_feedback"

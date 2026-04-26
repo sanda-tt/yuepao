@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- 联系作者部分 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="联系作者"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邮箱："
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/author_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hellalarm@foxmail.com"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 投喂作者部分 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="投喂作者"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+        <Button
+            android:id="@+id/btn_donate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支持项目DNA存续"
+            android:textSize="16sp"
+            android:background="@android:color/holo_green_dark"
+            android:textColor="@android:color/white"
+            android:padding="10dp" />
+    </LinearLayout>
+
+</LinearLayout>
